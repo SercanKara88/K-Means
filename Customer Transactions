@@ -1,0 +1,65 @@
+
+#################################################################
+##    Marketing analytics                                      ##
+##    Exercise in Segmentation                     	           ##
+##    Cluster Analysis using Customer Transactionss Dataset    ##
+#################################################################
+
+# free memory
+rm(list = ls())
+gc()
+
+
+
+# Read the Data
+Transactions<-read_csv("CustomerTransactions.csv")
+
+# Show the first few rows of the data
+head(Transactions)
+
+
+#Show attributes  
+attributes(Transactions)
+
+# draw the data
+plot(Transactions) 
+
+
+#################################################################
+##  K-Means-Partional Clustering                               ##
+#################################################################
+
+# Kmeans Clustering model fitting
+model <- kmeans(Transactions[-1:-2], 3) 
+summary(model)
+
+
+#Model attributes 
+attributes(model) 
+
+# Clusters:
+model$cluster
+
+# Cluster size:
+model$size
+
+# Assign cluster number to the original data:
+Transactions<-cbind(Transactions,Cluster=model$cluster)
+
+model$withinss
+
+#library(cluster)
+
+# Plot Clusters in 2D
+clusplot(Transactions[-1:-2], model$cluster, main='2D representation of the Cluster solution',
+         color=TRUE, shade=TRUE,
+         labels=2, lines=0)
+
+
+# Show cities and their corresponding clusters:
+table(Transactions[,1],model$cluster)
+
+
+
+
+
